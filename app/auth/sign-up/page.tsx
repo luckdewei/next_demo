@@ -18,6 +18,7 @@ import { useTransition } from "react";
 // import { useRouter } from "next/navigation";
 // import { authClient } from "@/lib/auth-client";
 import { z } from "zod";
+import { authClient } from "@/lib/auth-client";
 
 export default function SignUpPage() {
 const [isPending, startTransition] = useTransition();
@@ -30,8 +31,12 @@ const [isPending, startTransition] = useTransition();
       password: "",
     },
   });
-  function onSubmit(data: z.infer<typeof signUpSchema>) {
-
+  async function onSubmit(data: z.infer<typeof signUpSchema>) {
+    await authClient.signUp.email({
+      email: data.email,
+      password: data.password,
+      name: data.name,
+    });
   }
   return (
     <Card>
