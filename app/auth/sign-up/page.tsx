@@ -14,15 +14,15 @@ import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTransition } from "react";
-// import { toast } from "sonner";
-// import { useRouter } from "next/navigation";
-// import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { authClient } from "@/lib/auth-client";
+import { ErrorContext } from "better-auth/react";
 
 export default function SignUpPage() {
 const [isPending, startTransition] = useTransition();
-//   const router = useRouter();
+  const router = useRouter();
   const form = useForm({
     resolver: zodResolver(signUpSchema as any),
     defaultValues: {
@@ -32,11 +32,22 @@ const [isPending, startTransition] = useTransition();
     },
   });
   async function onSubmit(data: z.infer<typeof signUpSchema>) {
-    await authClient.signUp.email({
-      email: data.email,
-      password: data.password,
-      name: data.name,
-    });
+    startTransition(async () => {
+      await authClient.signUp.email({
+        email: data.email,
+        password: data.password,
+        name: data.name,
+        fetchOptions: {
+          onSuccess: () => {
+            toast.success("注册成功");
+            router.push("/auth/login");
+          },
+          onError: (error: ErrorContext) => {
+            toast.error(error.error.message || "注册失败");
+          },
+        },
+      });
+    })
   }
   return (
     <Card>
