@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Controller, useForm } from "react-hook-form";
-import { signUpSchema } from "../schemas/auth";
+import { signUpSchema } from "../../schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
