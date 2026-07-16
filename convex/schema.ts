@@ -6,7 +6,7 @@ export default defineSchema({
         title: v.string(),
         body: v.string(),
         authorId: v.string(),
-        imageStorgeId: v.optional(v.id("_storage")), // _storage 是convex的存储系统
+        // imageStorageId: v.optional(v.id("_storage")), // _storage 是convex的存储系统
     }).searchIndex("search_title", {
         searchField: "title",
     }).searchIndex("search_body", {

@@ -1,4 +1,5 @@
 "use client";
+import { createBlogAction } from "@/app/actions";
 import { postSchema } from "@/app/schemas/blog";
 import { Button } from "@/components/ui/button";
 import {
@@ -44,12 +45,14 @@ export default function CreatePage() {
 
   function onSubmit(values: z.infer<typeof postSchema>) {
     startTransition(async () => {
-        mutation({
-            body: values.content,
-            title: values.title,
-        });
-        toast.success("文章创建成功");
-        router.push("/");
+        // mutation({
+        //     body: values.content,
+        //     title: values.title,
+        // });
+        // await fetch("/api/create-blog", {
+        //     method: "POST"
+        // });
+        await createBlogAction(values);
     });
   }
   return (
